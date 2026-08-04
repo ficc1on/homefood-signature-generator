@@ -34,8 +34,7 @@
   }
 
   button,
-  input,
-  textarea { font: inherit; }
+  input { font: inherit; }
 
   .page-shell {
     width: min(1180px, 100%);
@@ -48,7 +47,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 28px;
+    margin-bottom: 0;
     text-align: center;
   }
 
@@ -170,8 +169,7 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
 
-  input::placeholder,
-  textarea::placeholder { color: #8297aa; }
+  input::placeholder { color: #8297aa; }
 
   input:hover { border-color: #9dbbd1; }
 
@@ -193,42 +191,6 @@
     border-color: #a62222;
     background: #fff;
     box-shadow: 0 0 0 4px rgba(166, 34, 34, 0.08);
-  }
-
-  .ready-field {
-    position: relative;
-  }
-
-  .ready-field .inline-copy {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    z-index: 3;
-    width: auto;
-    min-height: 38px;
-    margin: 0;
-    padding: 9px 13px;
-    border: 1px solid var(--hf-line);
-    border-radius: 14px;
-    color: var(--hf-navy);
-    background: var(--hf-white);
-    box-shadow: 0 8px 18px rgba(0, 45, 90, 0.10);
-    font-size: 11px;
-    white-space: nowrap;
-  }
-
-  .ready-field .inline-copy:hover {
-    color: var(--hf-white);
-    background: var(--hf-navy);
-    box-shadow: 0 10px 22px rgba(0, 45, 90, 0.17);
-  }
-
-  .ready-field .preview-box {
-    padding-top: 70px;
-  }
-
-  .ready-field textarea {
-    padding-top: 62px;
   }
 
   .messenger-panel {
@@ -335,6 +297,15 @@
     box-shadow: 0 10px 22px rgba(0, 45, 90, 0.10);
   }
 
+  .copy-signature-button {
+    width: auto;
+    min-height: 44px;
+    margin: 0 0 14px auto;
+    padding: 11px 17px;
+    border-radius: 16px;
+    font-size: 12px;
+  }
+
   .preview-box {
     min-height: 260px;
     margin-bottom: 28px;
@@ -343,29 +314,6 @@
     border: 1px dashed #9dbbd1;
     border-radius: 28px;
     background: var(--hf-white);
-  }
-
-  .code-heading { margin-top: 2px; }
-
-  textarea {
-    width: 100%;
-    height: 250px;
-    padding: 17px 18px;
-    resize: vertical;
-    border: 1px solid var(--hf-line);
-    border-radius: 22px;
-    outline: none;
-    color: var(--hf-navy);
-    background: var(--hf-blue-lightest);
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-    font-size: 11px;
-    line-height: 1.55;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  textarea:focus {
-    border-color: var(--hf-navy);
-    box-shadow: 0 0 0 5px rgba(0, 45, 90, 0.08);
   }
 
   .footer-note {
@@ -390,9 +338,8 @@
     .brand-note { font-size: 12px; }
     .form-card,
     .result-card { padding: 22px 17px; border-radius: 28px; }
-    .preview-box { min-height: 220px; padding: 68px 15px 22px; border-radius: 24px; }
-    textarea { height: 220px; padding-top: 60px; border-radius: 19px; }
-    .ready-field .inline-copy { top: 12px; right: 12px; }
+    .copy-signature-button { width: 100%; margin-bottom: 12px; }
+    .preview-box { min-height: 220px; padding: 22px 15px; border-radius: 24px; }
   }
 </style>
 </head>
@@ -403,7 +350,7 @@
       <img class="brand-logo" src="https://homefood.ua/content/images/30/0dlia-kartynok_2-47447985656745_+2565d751a4.png" alt="HOME FOOD" />
       <h1>Генератор підписів</h1>
     </div>
-    <p class="brand-note">Заповніть контактні дані, перевірте готовий підпис і скопіюйте HTML-код для пошти.</p>
+    <p class="brand-note">Заповніть контактні дані, перевірте готовий підпис і скопіюйте його для пошти.</p>
   </header>
 
   <main class="wrap">
@@ -479,21 +426,8 @@
         </div>
         <span class="step-badge">02</span>
       </div>
-      <div class="ready-field">
-        <button type="button" class="inline-copy" onclick="copySignature(this)">Копіювати підпис</button>
-        <div class="preview-box" id="preview"></div>
-      </div>
-
-      <div class="section-heading code-heading">
-        <div>
-          <h2>HTML-код</h2>
-          <p>Скопіюйте код і вставте його в налаштування підпису.</p>
-        </div>
-      </div>
-      <div class="ready-field">
-        <button type="button" class="inline-copy" onclick="copyCode(this)">Копіювати код</button>
-        <textarea id="output" readonly aria-label="HTML-код підпису"></textarea>
-      </div>
+      <button type="button" class="copy-signature-button" onclick="copySignature(this)">Копіювати підпис</button>
+      <div class="preview-box" id="preview"></div>
     </section>
   </main>
 
@@ -617,7 +551,7 @@ function buildHtml() {
     <td>${messengerButtons.join('')}</td>
     </tr>` : '';
 
-  const logoTopPadding = hasMessengers ? '4px' : '0';
+  const logoTopPadding = hasMessengers ? '16px' : '0';
 
   return `<table style="font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1.45; color: #002d5a; max-width: 600px; width: 100%;" border="0" cellspacing="0" cellpadding="0">
     <tbody>
@@ -688,7 +622,6 @@ function generate(validateBeforeGenerate = false) {
   }
 
   const html = buildHtml();
-  document.getElementById('output').value = html;
   document.getElementById('preview').innerHTML = html;
   return true;
 }
@@ -709,7 +642,7 @@ async function copySignature(button) {
     return;
   }
 
-  const html = document.getElementById('output').value;
+  const html = buildHtml();
   const plainText = document.getElementById('preview').innerText.trim();
 
   try {
@@ -737,30 +670,6 @@ async function copySignature(button) {
     selection.addRange(range);
     document.execCommand('copy');
     selection.removeAllRanges();
-    showCopiedState(button);
-  }
-}
-
-async function copyCode(button) {
-  if (!validateEmail(true)) {
-    document.getElementById('email').focus();
-    return;
-  }
-
-  const output = document.getElementById('output');
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(output.value);
-    } else {
-      output.select();
-      document.execCommand('copy');
-      window.getSelection()?.removeAllRanges();
-    }
-    showCopiedState(button);
-  } catch (error) {
-    output.select();
-    document.execCommand('copy');
-    window.getSelection()?.removeAllRanges();
     showCopiedState(button);
   }
 }
